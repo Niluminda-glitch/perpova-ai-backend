@@ -1,64 +1,141 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+⭐ If you are reviewing this project for the Perpova internship, please watch the 2-minute demo video first.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🚀 Perpova White-Label AI Engine (Laravel 11 Backend)
 
-## About Laravel
+Proof-of-Work Project built for the **Software Engineer Intern** application at **Perpova Developers**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This repository contains the backend AI engine powering a **B2B White-Label AI Chat System** designed for development agencies.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The system allows agencies to **instantly add AI-powered search and chat** to any client website while ensuring responses are grounded in the client's real data, preventing hallucinations.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🔗 Related Links
 
-## Learning Laravel
+- **Frontend Widget Repository**: [https://github.com/Niluminda-glitch/perpova-ai-widget](https://github.com/Niluminda-glitch/perpova-ai-widget)
+- **2-Minute Demo Video**: [https://drive.google.com/file/d/1Af3cAupV3IDS9MiPpPsca6dHjE7emASo/view?usp=sharing](https://drive.google.com/file/d/1Af3cAupV3IDS9MiPpPsca6dHjE7emASo/view?usp=sharing)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 💡 The Business Problem
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Development agencies build websites for clients every day.
 
-## Laravel Sponsors
+Many clients now want AI assistants on their websites, but there are major challenges:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clients often lack technical knowledge to implement AI properly
+2. Generic AI tools hallucinate incorrect information
+3. Secure AI deployments require backend infrastructure
 
-### Premium Partners
+**This project demonstrates how agencies can offer AI-powered search as a scalable premium feature.**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### The System Works By
 
-## Contributing
+1. Accepting a **client's website URL**
+2. **Crawling and extracting** meaningful content
+3. Converting the content into **vector embeddings**
+4. Storing embeddings in a **vector database**
+5. Providing **accurate AI answers** based *only* on that data
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🧠 Architecture Overview
 
-## Code of Conduct
+This backend implements a **RAG (Retrieval-Augmented Generation)** pipeline.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```mermaid
+graph TD;
+    U[User Question] -->|Convert Question| E[Embedding];
+    E -->|Similarity Search| V[pgvector];
+    V -->|Retrieve Relevant Website Content| C[Context];
+    C -->|Inject Context| L[LLM];
+    L -->|Generate Response| R[Accurate AI Response];
+```
 
-## Security Vulnerabilities
+## ⚙️ Technology Stack
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Component | Technology |
+| :--- | :--- |
+| **Framework** | Laravel 11 |
+| **Language** | PHP 8+ |
+| **Database** | PostgreSQL |
+| **Vector Database** | pgvector |
+| **Hosting** | Supabase |
+| **Embeddings Model** | BAAI/bge-base-en-v1.5 |
+| **LLM Engine** | Groq Cloud |
+| **Model** | Llama-3.3-70B |
 
-## License
+## 🔍 Core APIs
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Website Ingestion API
 
-=======
-# perpova-ai-backend
->>>>>>> 915186431c691f94cdec81d2535b46266045b65d
+- **Endpoint**: `POST /api/ingest`
+- **Function**:
+    - Accepts a website URL
+    - Crawls and scrapes page content
+    - Cleans HTML and extracts readable text
+    - Splits text into smaller chunks
+    - Generates embeddings using Hugging Face
+    - Stores vectors inside PostgreSQL
+
+### AI Chat API
+
+- **Endpoint**: `POST /api/chat`
+- **Function**:
+    - Receives user questions from the React widget
+    - Converts the question into an embedding
+    - Performs cosine similarity search using pgvector
+    - Retrieves the most relevant website content
+    - Injects context into the Llama-3 prompt
+    - Generates a grounded AI response
+
+## 🛠 Local Development Setup
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/Niluminda-glitch/perpova-ai-backend.git
+cd perpova-ai-backend
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
+composer install
+```
+
+### 3️⃣ Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=your_supabase_host
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=your_supabase_username
+DB_PASSWORD=your_supabase_password
+
+GROQ_API_KEY=your_groq_api_key
+HF_TOKEN=your_huggingface_token
+```
+
+### 4️⃣ Run Laravel Server
+
+```bash
+php artisan serve
+```
+
+Server will run at: `http://localhost:8000`
+
+## 📈 Possible Future Improvements
+
+- [ ] Multi-website ingestion support
+- [ ] Authentication and API rate limiting
+- [ ] WordPress plugin wrapper
+- [ ] Scheduled website re-indexing
+- [ ] Agency dashboard for managing clients
+
+## 👨‍💻 Author
+
+**Kavishka Niluminda**
+
+- **Software Engineering Student** – NIBM
+- **Merit Scholar** (Rank 1 Island-wide)
+
+- **Portfolio**: [https://www.kavishkaniluminda.me](https://www.kavishkaniluminda.me)
+- **LinkedIn**: [https://www.linkedin.com/in/kavishka-niluminda-2b9a23268](https://www.linkedin.com/in/kavishka-niluminda-2b9a23268)
